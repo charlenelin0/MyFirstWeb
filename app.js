@@ -7,9 +7,10 @@ const fs = require('fs');
 
 // Import models
 const {sequelize} = require('./models');
-const {ProductInfo, SampleProductInfo, ProductBasic, SampleProductBasic} = require('./models/product');
-const {UserInfo, SampleUserInfo} = require('./models/user');
-const {Orders, SampleOrders, OrdersDetail, SampleOrdersDetail} = require('./models/order');
+const {logger} = require('./utils/logger');
+const {ProductInfo, SampleProductInfo, ProductBasic, SampleProductBasic} = require('./models/db/product');
+const {UserInfo, SampleUserInfo} = require('./models/db/user');
+const {Orders, SampleOrders, OrdersDetail, SampleOrdersDetail} = require('./models/db/order');
 
 // Create Tables
 (
@@ -17,29 +18,22 @@ const {Orders, SampleOrders, OrdersDetail, SampleOrdersDetail} = require('./mode
     try {
 
         // force: true -> clear db date, for development stage
-        await sequelize.sync({force: true})
-        console.log('Create Success.')
+        await sequelize.sync({force: true});
         
-        await ProductInfo.create(SampleProductInfo)
-        console.log('Product Info add.')
+        await ProductInfo.create(SampleProductInfo);
 
-        await ProductBasic.create(SampleProductBasic)
-        console.log('Product Basic add.')
+        await ProductBasic.create(SampleProductBasic);
 
-        await UserInfo.create(SampleUserInfo)
-        console.log('UserInfo add.')
+        await UserInfo.create(SampleUserInfo);
 
-        await Orders.create(SampleOrders)
-        console.log('Orders add.')
+        await Orders.create(SampleOrders);
 
-        await OrdersDetail.create(SampleOrdersDetail)
-        console.log('OrdersDetail add.')
+        await OrdersDetail.create(SampleOrdersDetail);
 
-        console.log('Sample Insert Success.')
+        logger.log('info', 'DB Sync Success.')
         
-
     } catch (err) {
-        console.error('Failed.', err)
+        logger.error('DB Sync Failed - ' + err);
     }
 })();
 
@@ -49,13 +43,13 @@ const server = http.createServer(function(req, res){
     res.writeHead(200, {'Content-Type':'text/html'})
     fs.readFile('./views/index.html', function(error, data){
         if(error){
-            res.writeHead(404)
-            res.write('Error: File Not Found')
+            res.writeHead(404);
+            res.write('Error: File Not Found');
         }else{
-            res.write(data)
+            res.write(data);
         }
         // end reposne
-        res.end()
+        res.end();
     })
 })
 
@@ -63,8 +57,8 @@ const server = http.createServer(function(req, res){
 // check if error happens
 server.listen(port, function(error){
     if(error){
-        console.log('Something went wrong', error)
+        console.log('Something went wrong', error);
     } else{
-        console.log('Server is listening on port ' + port)
+        console.log('Server is listening on port ' + port);
     }
-})
+});
