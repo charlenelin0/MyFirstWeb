@@ -1,5 +1,5 @@
 // Import Connection from index
-const {sequelize, DataTypes} = require('../index');
+const {sequelize, DataTypes} = require('./sequelize');
 
 // Define a new model, representing a table in the database.
 const ProductBasic = sequelize.define('product_basic',{

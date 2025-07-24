@@ -1,5 +1,5 @@
 // Import Connection from index
-const {sequelize, DataTypes} = require('../index');
+const {sequelize, DataTypes} = require('./sequelize');
 
 const UserInfo = sequelize.define('user_info',{
     'ID': {
@@ -8,6 +8,7 @@ const UserInfo = sequelize.define('user_info',{
     },
     'email': {
         type: DataTypes.STRING, 
+        unique: true,
         allowNull: false
     },
     'password': {

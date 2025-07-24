@@ -1,4 +1,4 @@
-const {sequelize, DataTypes} = require('../index');
+const {sequelize, DataTypes} = require('./sequelize');
 
 const Orders = sequelize.define('orders',{
     'order_id': {
