@@ -5,7 +5,6 @@ exports.getList = async(req, res) =>{
         const category = req.params.category;
         const paging = parseInt(req.params.paging) || 0;
         const pageInfo = await productService.getList(category, paging);
-        console.log(pageInfo.rows);
         return res.json(pageInfo.count);
     }
     catch(err){
@@ -13,9 +12,18 @@ exports.getList = async(req, res) =>{
     };
 };
 
+exports.searchProduct = async(req, res) =>{
+    try{
+        const products = await productService.searchProduct(req.query.keyword);
+        return res.json(products);
+    }
+    catch(err){
+        return res.status(err.statusCode).josn({message: err.message});
+    }
+}
+
 exports.createProduct = async(req, res) =>{
     try{
-        console.log(req.body);
         const created = await productService.createProduct(req.body);
         return res.status(201).json({message: 'Product created successfully', id: created.product_id });
     }

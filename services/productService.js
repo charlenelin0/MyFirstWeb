@@ -11,6 +11,16 @@ exports.getList = async(categories, paging) =>{
     }
 };
 
+exports.searchProduct = async(keyword) => {
+    try{
+        const productList = await productRepo.searchProduct(keyword);
+        return productList;
+    }
+    catch(err){
+        throw err;
+    }
+}
+
 exports.createProduct = async(productInfo)=>{
     try{
         const newProduct = await productRepo.createProduct(productInfo);

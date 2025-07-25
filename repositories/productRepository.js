@@ -17,6 +17,16 @@ exports.getList = async(categories, paging) =>{
     };
 };
 
+exports.searchProduct = async(keyword) =>{
+    const products = await product.ProductBasic.findall({
+        where:{
+            title: {[Op.like]:'%' + keyword + '%'},
+        },
+    });
+    const plainProducts = rows.map(row => row.get({plain: true}));
+    return plainProducts;
+};
+
 exports.createProduct = async(productInfo) =>{
     const newProduct = await product.ProductBasic.create({
         product_id: productInfo.product_id,
